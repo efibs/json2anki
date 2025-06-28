@@ -2,6 +2,7 @@ import os
 import random
 from models import Location, Tag
 from genanki import Deck, Model, Package, Note
+from tqdm import tqdm
 
 from plotting import plot_tag_plain
 
@@ -118,7 +119,7 @@ def tag_list_to_anki_package(tags: list[Tag], deck_name: str) -> Package:
     media = []
 
     # For every tag
-    for tag in tags:
+    for tag in tqdm(tags, desc='Generating cards', unit='tags'):
         # Plot the tags location and save to an image file
         plot_image_file = plot_tag_plain(tag)
 

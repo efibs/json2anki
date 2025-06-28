@@ -2,3 +2,4 @@ PyGObject==3.52.3
 matplotlib==3.10.3
 basemap==2.0.0
 genanki==0.13.1
+tqdm==4.67.1
