@@ -1,0 +1,7 @@
+# Python specific folders
+.venv/
+__pycache__/
+
+# Testing files
+locs.json
+deck.apkg
