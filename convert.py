@@ -120,29 +120,33 @@ def tag_list_to_anki_package(tags: list[Tag], deck_name: str, gen_flat_map: bool
 
     # For every tag
     for tag in tqdm(tags, desc='Generating cards', unit='tags'):
-        # Plot the tags location and save to an image file
-        if gen_flat_map:
-            plot_image_file = plot_tag_plain(tag)
-        else:
-            plot_image_file = plot_tag_map(tag)
+        try:
+            # Plot the tags location and save to an image file
+            if gen_flat_map:
+                plot_image_file = plot_tag_plain(tag)
+            else:
+                plot_image_file = plot_tag_map(tag)
 
-        # Append the path to the file to the media list
-        media.append(plot_image_file)
+            # Append the path to the file to the media list
+            media.append(plot_image_file)
 
-        # Create the image tag for the backside of the anki 
-        # card. Use just the image name as the src since 
-        # anki will resolve the full path and it wouldn't 
-        # even work when specifying the full path here.
-        plot_image_tag = f'<img src="{os.path.basename(plot_image_file)}">'
+            # Create the image tag for the backside of the anki 
+            # card. Use just the image name as the src since 
+            # anki will resolve the full path and it wouldn't 
+            # even work when specifying the full path here.
+            plot_image_tag = f'<img src="{os.path.basename(plot_image_file)}">'
 
-        # Create the note
-        note = Note(
-            model=model,
-            fields=[tag.tag_name, plot_image_tag]
-        )
+            # Create the note
+            note = Note(
+                model=model,
+                fields=[tag.tag_name, plot_image_tag]
+            )
 
-        # Add the note to the deck
-        deck.add_note(note)
+            # Add the note to the deck
+            deck.add_note(note)
+        except Exception as ex:
+            print(f'ERROR: Cannot create card for tag "{tag}". Details: {ex}')
+            exit(1)
 
     # Set the media files list on the package so that
     # the files are bundled inside the generated .apkg
