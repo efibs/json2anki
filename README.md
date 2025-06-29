@@ -13,6 +13,8 @@ An example from finbarr's russia long antenna json:
 
 ## Preparation
 
+The first thing you need to do is get the source code onto your computer. You can either download the code as a zip file using the green "<> Code" butting in the top right of GitHub or git clone the repository.
+
 To prepare the execution of the converter tool, create and activate a python virtual environment. (You can also install the required packages globally in your system, but it is usually more comfortable using virtual environments)
 
 ### Windows
