@@ -1,3 +1,6 @@
+# VSCode
+.vscode/
+
 # Python specific folders
 .venv/
 __pycache__/

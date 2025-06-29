@@ -1,4 +1,4 @@
-from argparse import ArgumentParser
+from argparse import ArgumentParser, BooleanOptionalAction
 import json
 import os
 from pathlib import Path
@@ -17,6 +17,7 @@ def create_argparser() -> ArgumentParser:
     parser.add_argument('-f', '--file', default='locs.json', help='The input json file')
     parser.add_argument('-d', '--deck', default=None, help='The name of the generated anki deck')
     parser.add_argument('-o', '--output', default='deck.apkg', help='The name of the generated file')
+    parser.add_argument('-fl', '--flat', action=BooleanOptionalAction, help='Generate a flat map with no labels and colors instead of the default map')
 
     return parser
 
@@ -39,13 +40,17 @@ def main():
     # Convert the json to list of tags
     tags = json_to_tag_list(json_data)
 
+    # Remove output image folder if exists
+    if os.path.isdir(IMG_OUTPUT_FOLDER):
+        shutil.rmtree(IMG_OUTPUT_FOLDER)
+    
     # Create image output folder if not exists
     Path(IMG_OUTPUT_FOLDER).mkdir()
 
     try:
         # Generate anki package
         deck_name = args.deck if args.deck else json_data['name']
-        anki_package = tag_list_to_anki_package(tags, deck_name)
+        anki_package = tag_list_to_anki_package(tags, deck_name, args.flat)
 
         # Save the package file
         anki_package.write_to_file(args.output)

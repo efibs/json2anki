@@ -3,3 +3,6 @@ matplotlib==3.10.3
 basemap==2.0.0
 genanki==0.13.1
 tqdm==4.67.1
+geopandas==1.1.1
+shapely==2.1.1
+contextily==1.6.2

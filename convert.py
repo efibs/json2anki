@@ -4,7 +4,7 @@ from models import Location, Tag
 from genanki import Deck, Model, Package, Note
 from tqdm import tqdm
 
-from plotting import plot_tag_plain
+from plotting import plot_tag_map, plot_tag_plain
 
 
 DEFAULT_COLOR = [0, 0, 0]
@@ -87,7 +87,7 @@ def json_to_tag_list(json_data) -> list[Tag]:
     return list(tags_dict.values())
 
 
-def tag_list_to_anki_package(tags: list[Tag], deck_name: str) -> Package:
+def tag_list_to_anki_package(tags: list[Tag], deck_name: str, gen_flat_map: bool) -> Package:
     """
     Convert a list of tags to an anki package
     """
@@ -121,7 +121,10 @@ def tag_list_to_anki_package(tags: list[Tag], deck_name: str) -> Package:
     # For every tag
     for tag in tqdm(tags, desc='Generating cards', unit='tags'):
         # Plot the tags location and save to an image file
-        plot_image_file = plot_tag_plain(tag)
+        if gen_flat_map:
+            plot_image_file = plot_tag_plain(tag)
+        else:
+            plot_image_file = plot_tag_map(tag)
 
         # Append the path to the file to the media list
         media.append(plot_image_file)
